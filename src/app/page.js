@@ -1,65 +1,149 @@
-import Image from "next/image";
+// src/app/page.js
 
-export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+import Link from 'next/link'
+import PhoneNumberCard from '@/components/sms/PhoneNumberCard'
+import { getAllPhoneNumbers } from '@/lib/data/phoneNumbers'
+import { Zap, Shield, Globe } from 'lucide-react'
+
+import CountdownTimer from "@/components/CountdownTimer";
+
+
+function shuffleArray(arr) {
+    const copy = [...arr]
+    for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[copy[i], copy[j]] = [copy[j], copy[i]]
+    }
+    return copy
+}
+
+export default function HomePage() {
+    const phoneNumbers = getAllPhoneNumbers()
+
+
+    return (
+        <>
+            <section className="bg-gradient-to-br from-blue-50 via-white to-purple-50 py-16">
+                <div className="max-w-7xl mx-auto px-4 text-center">
+                    <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+                        Receive SMS Online <span className="text-blue-600">For Free</span>
+                    </h1>
+                    <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                        Get free phone numbers from multiple countries instantly. No registration required!
+                    </p>
+
+                    <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-12">
+                        <div className="bg-white p-6 rounded-xl shadow-md">
+                            <Zap className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
+                            <h3 className="font-bold text-lg mb-2">Instant Access</h3>
+                            <p className="text-gray-600 text-sm">Numbers refresh every 1 hour</p>
+                        </div>
+                        <div className="bg-white p-6 rounded-xl shadow-md">
+                            <Shield className="w-12 h-12 text-green-500 mx-auto mb-4" />
+                            <h3 className="font-bold text-lg mb-2">100% Free</h3>
+                            <p className="text-gray-600 text-sm">No hidden fees</p>
+                        </div>
+                        <div className="bg-white p-6 rounded-xl shadow-md">
+                            <Globe className="w-12 h-12 text-blue-500 mx-auto mb-4" />
+                            <h3 className="font-bold text-lg mb-2">Global Coverage</h3>
+                            <p className="text-gray-600 text-sm">100+ countries</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="py-12 px-4 bg-white">
+                <div className="max-w-7xl mx-auto">
+                    <h2 className="text-3xl font-bold mb-8 text-center">Available Phone Numbers</h2>
+
+                    <CountdownTimer interval={3600} />   {/* 10 giây đổi số */}
+
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                        {phoneNumbers.slice(0, 3).map((phone) => (
+                            <PhoneNumberCard key={phone.id} phone={phone} />
+                        ))}
+
+                        {shuffleArray(phoneNumbers.slice(3)).slice(0, 9).map((phone) => (
+                            <PhoneNumberCard key={phone.id} phone={phone} />
+                        ))}
+
+                    </div>
+
+
+
+                   <div className="text-center mt-8">
+                        {(() => {
+                            const randomPhone = phoneNumbers[Math.floor(Math.random() * phoneNumbers.length)];
+                            return (
+                                <Link
+                                    href={`/sms/${randomPhone.number}`}
+                                    className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition font-semibold"
+                                >
+                                    Get a Random Number →
+                                </Link>
+                            );
+                        })()}
+                    </div>
+
+
+                </div>
+            </section>
+
+            <section className="bg-gray-50 py-16 px-4 mt-16 border-t">
+                <div className="max-w-5xl mx-auto">
+
+                    <h2 className="text-3xl font-bold text-center mb-6">
+                        What Is a Temporary Phone Number?
+                    </h2>
+
+                    <p className="text-gray-700 leading-relaxed mb-8 text-center">
+                        Temporary phone numbers allow you to <strong>receive SMS online for free</strong> without
+                        using your personal phone. These disposable numbers are perfect for verifying online
+                        accounts, receiving OTP codes, or protecting your privacy while signing up for websites,
+                        apps, and services.
+                    </p>
+
+                    <h3 className="text-2xl font-semibold mb-4">How to Use Our Free SMS Service</h3>
+
+                    <ol className="list-decimal ml-6 text-gray-700 space-y-2 mb-8">
+                        <li>Choose any temporary phone number from the list above.</li>
+                        <li>Click the number to open the SMS inbox page.</li>
+                        <li>Use this number to sign up or receive verification codes (OTP).</li>
+                        <li>Wait a few seconds — new messages will appear automatically.</li>
+                        <li>No registration, no login, and completely free.</li>
+                    </ol>
+
+                    <h3 className="text-2xl font-semibold mb-4">Why Use a Temporary Phone Number?</h3>
+
+                    <ul className="list-disc ml-6 text-gray-700 space-y-2 mb-8">
+                        <li>Protect your personal phone number from spam.</li>
+                        <li>Bypass SMS verification for websites and apps.</li>
+                        <li>Sign up anonymously without sharing private information.</li>
+                        <li>Fast, reliable, and refreshed every 1 hour.</li>
+                        <li>Works globally with 100+ countries supported.</li>
+                    </ul>
+
+                    <h3 className="text-2xl font-semibold mb-4">Supported Use Cases</h3>
+
+                    <p className="text-gray-700 mb-2">You can use these numbers to receive verification codes from:</p>
+
+                    <ul className="list-disc ml-6 text-gray-700 space-y-2 mb-8">
+                        <li>Facebook, Instagram, Telegram, WhatsApp</li>
+                        <li>TikTok, Twitter (X), Google, Microsoft, Apple ID</li>
+                        <li>PayPal, Amazon, Uber, Netflix</li>
+                        <li>Any service requiring OTP via SMS</li>
+                    </ul>
+
+                    <p className="text-gray-700 leading-relaxed text-center mt-10">
+                        Our platform updates all numbers every <strong>60 minutes</strong> to ensure the inbox stays clean
+                        and secure. Bookmark this page to always have access to fresh free phone numbers.
+                    </p>
+
+                </div>
+            </section>
+
+
+        </>
+    )
 }
