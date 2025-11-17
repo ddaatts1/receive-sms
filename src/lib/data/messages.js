@@ -138,7 +138,6 @@ function rngFromString(str) {
 
 // ===== Deterministic messages per phone number =====
 export function generateMessages(phoneNumber, count = 5) {
-    console.log("phone number :"+ phoneNumber)
     const messages = [];
     const rand = rngFromString(String(phoneNumber));
 

@@ -22,6 +22,22 @@ export default function RootLayout({ children }) {
             {children}
         </main>
         <Footer />
+
+        <Script
+            src="https://www.googletagmanager.com/gtag/js?id=G-FX4XWKJX2W"
+            strategy="afterInteractive"
+        />
+
+        <Script id="google-analytics" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-FX4XWKJX2W');
+            `}
+        </Script>
+        
+
         </body>
         </html>
     )

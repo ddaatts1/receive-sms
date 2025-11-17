@@ -17,12 +17,10 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
     const number = (await params).number
-    console.log("number nhận được:", number)
 
     // const phone = getPhoneByNumber(decodeURIComponent(number))
     const phone = getPhoneByNumber(number)
 
-    console.log(phone)
     if (!phone) return {}
 
     return {
@@ -36,7 +34,6 @@ export default async function PhoneDetailPage({ params }) {
     const number = (await params).number
 
     const phone = getPhoneByNumber(number)
-    console.log("phone: "+ phone)
 
     if (!phone) notFound()
 
