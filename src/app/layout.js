@@ -36,6 +36,10 @@ export const metadata = {
         "receive sms",
         "free phone number",
     ],
+    alternates: {
+        canonical: "https://receive-sms.vercel.app",
+    },
+
     openGraph: {
         title: "Receive SMS Online Free – Temporary Phone Numbers",
         description:
