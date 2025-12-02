@@ -16,6 +16,9 @@ const inter = Inter({ subsets: ['latin'] })
 // }
 
 export const metadata = {
+icons: {
+    icon: "/smsreceiver.png",
+  },
   metadataBase: new URL("https://sms-receiver.online"),
   title: {
     default: "Receive SMS Online Free | Temporary Phone Numbers",
