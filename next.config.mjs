@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
   images: {
     remotePatterns: [
       {
@@ -11,8 +10,24 @@ const nextConfig = {
       },
     ],
   },
+
   reactCompiler: true,
+
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "receive-sms.vercel.app",
+          },
+        ],
+        destination: "https://sms-receiver.online/:path*",
+        permanent: true, // 301/308 redirect for SEO
+      },
+    ];
+  },
 };
 
 export default nextConfig;
-
