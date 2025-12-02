@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://receive-sms.vercel.app/sitemap.xml
+Sitemap: https://sms-receiver.online/sitemap.xml
