@@ -9,14 +9,8 @@ import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({ subsets: ['latin'] })
 
-// export const metadata = {
-//     title: 'Receive SMS Online Free - Temporary Phone Numbers',
-//     description: 'Get free temporary phone numbers from 10+ countries to receive SMS verification codes online. No registration required.',
-//     keywords: 'receive sms, free sms, temporary phone number, online sms',
-// }
-
 export const metadata = {
-icons: {
+  icons: {
     icon: "/smsreceiver.png",
   },
   metadataBase: new URL("https://sms-receiver.online"),
@@ -25,7 +19,7 @@ icons: {
     template: "%s | Receive SMS Online",
   },
   description:
-    "Receive SMS online for free using temporary phone numbers from 100+ countries. No registration required. Fast, secure and updated hourly.",
+      "Receive SMS online for free using temporary phone numbers from 100+ countries. No registration required. Fast, secure and updated hourly.",
   keywords: [
     "receive sms online",
     "temporary phone number",
@@ -45,7 +39,7 @@ icons: {
   openGraph: {
     title: "Receive SMS Online Free – Temporary Phone Numbers",
     description:
-      "Get free temporary phone numbers to receive SMS verification codes online. No signup needed. Updated every hour.",
+        "Get free temporary phone numbers to receive SMS verification codes online. No signup needed. Updated every hour.",
     url: "https://sms-receiver.online",
     siteName: "Receive SMS Online",
     images: [
@@ -66,38 +60,53 @@ icons: {
   },
 };
 
-
 export default function RootLayout({ children }) {
-    return (
-        <html lang="en">
-        <body className={inter.className}>
-        <Header />
-        <main className="min-h-screen">
-            {children}
-        </main>
-        <Footer />
+  return (
+      <html lang="en">
+      <body className={inter.className}>
+      {/* Google Analytics */}
+      <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-J9PFPTD4FQ"
+      />
+      <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-J9PFPTD4FQ');
+            `,
+          }}
+      />
 
+      <Header />
+      <main className="min-h-screen">
+        {children}
+      </main>
+      <Footer />
 
-<script
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Receive SMS Online Free",
-      "url": "https://sms-receiver.online",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://sms-receiver.online/sms/{search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }),
-  }}
-/>
+      <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Receive SMS Online Free",
+              "url": "https://sms-receiver.online",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://sms-receiver.online/sms/{search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            }),
+          }}
+      />
 
-
-        <Analytics />
-        </body>
-        </html>
-    )
+      <Analytics />
+      </body>
+      </html>
+  )
 }
