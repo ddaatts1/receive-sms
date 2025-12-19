@@ -1,4 +1,6 @@
 // src/app/sms/[number]/page.js
+import CountdownTimer from "@/components/CountdownTimer";
+
 
 import { getAllPhoneNumbers, getPhoneByNumber } from '@/lib/data/phoneNumbers'
 import { generateMessages } from '@/lib/data/messages'
@@ -6,6 +8,8 @@ import MessageList from '@/components/sms/MessageList'
 import { notFound } from 'next/navigation'
 import { RefreshCw } from 'lucide-react'
 import Image from "next/image";
+import ReloadButton from '@/components/ReloadButton'
+
 
 export async function generateStaticParams() {
     const phoneNumbers = getAllPhoneNumbers()
@@ -33,11 +37,24 @@ export default async function PhoneDetailPage({ params }) {
 
     const number = (await params).number
 
-    const phone = getPhoneByNumber(number)
+    let phone = getPhoneByNumber(number)
 
-    if (!phone) notFound()
+    if (!phone) {
+        const allPhones = getAllPhoneNumbers()
+        phone = allPhones[Math.floor(Math.random() * allPhones.length)]
+    }
 
-    const messages = generateMessages(number,phone.messageCount)
+
+    let messages ;
+
+    // if (!phone) notFound()
+    if (!phone) {
+       messages=  generateMessages(number,6)
+    }else {
+        messages=  generateMessages(number,phone.messageCount)
+
+    }
+
 
     return (
         <div className="min-h-screen bg-gray-50 py-12 px-4">
@@ -59,6 +76,10 @@ export default async function PhoneDetailPage({ params }) {
             ● Active
           </span>
                 </div>
+                <ReloadButton />
+
+                <CountdownTimer interval={3600} />
+
 
                 <div className="bg-white rounded-xl shadow-lg p-6">
                     <MessageList messages={messages} />
