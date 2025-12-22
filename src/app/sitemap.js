@@ -1,6 +1,8 @@
 import { countries } from "@/lib/data/countries";
+import connectDB from "@/lib/mongodb";
+import Post from "@/models/Post";
 
-export default function sitemap() {
+export default async function sitemap() {
   const baseUrl = "https://sms-receiver.online";
 
   // Static pages
@@ -8,6 +10,7 @@ export default function sitemap() {
     "",
     "/country",
     "/sms",
+    "/posts"
   ].map((path) => ({
     url: `${baseUrl}${path}`,
     lastModified: new Date().toISOString(),
@@ -23,5 +26,15 @@ export default function sitemap() {
     priority: 0.8,
   }));
 
-  return [...staticPages, ...countryPages];
+  // Blog posts pages
+  await connectDB();
+  const posts = await Post.find().lean();
+  const postPages = posts.map(post => ({
+    url: `${baseUrl}/posts/${post.slug}`,
+    lastModified: post.createdAt.toISOString(),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...countryPages, ...postPages];
 }

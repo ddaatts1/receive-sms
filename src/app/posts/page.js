@@ -4,8 +4,7 @@ import Post from "@/models/Post"
 
 const PAGE_SIZE = 5 // posts per page
 
-export async function getServerSideProps({ query }) {
-    const page = parseInt(query.page || "1")
+async function getPosts(page = 1) {
     await connectDB()
 
     const totalPosts = await Post.countDocuments()
@@ -23,12 +22,15 @@ export async function getServerSideProps({ query }) {
 
     const totalPages = Math.ceil(totalPosts / PAGE_SIZE)
 
-    return {
-        props: { posts: serialized, page, totalPages }
-    }
+    return { posts: serialized, totalPages }
 }
 
-export default function PostList({ posts, page, totalPages }) {
+export default async function PostList({ searchParams }) {
+    // PHẢI await searchParams trước
+    const resolvedSearchParams = await searchParams
+    const page = parseInt(resolvedSearchParams?.page || "1")
+    const { posts, totalPages } = await getPosts(page)
+
     return (
         <div style={{ maxWidth: 600, margin: "40px auto", padding: "0 20px", textAlign: "center" }}>
             <h1 style={{ marginBottom: 30 }}>Blog Posts</h1>

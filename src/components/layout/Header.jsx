@@ -27,6 +27,9 @@ export default function Header() {
             <Link href="/country" className="text-gray-600 hover:text-blue-600 transition">
               Countries
             </Link>
+            <Link href="/posts" className="text-gray-600 hover:text-blue-600 transition">
+              Posts
+            </Link>
           </nav>
         </div>
       </div>
